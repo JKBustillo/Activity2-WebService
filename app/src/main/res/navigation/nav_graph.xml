@@ -24,4 +24,9 @@
         android:name="com.jabustillo.webservice.ui.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" />
+    <fragment
+        android:id="@+id/courseFragment"
+        android:name="com.jabustillo.webservice.ui.CourseFragment"
+        android:label="fragment_course"
+        tools:layout="@layout/fragment_course" />
 </navigation>
