@@ -21,7 +21,7 @@ class CourseViewModel : ViewModel() {
         viewModelScope.launch {
             val theReturnCourse = repository.getCourses(user, token)
             courses.addAll(theReturnCourse)
-            coursesLiveData.postValue(courses)
+            coursesLiveData.postValue(courses.asReversed())
         }
     }
 

@@ -54,5 +54,8 @@ class CourseFragment : Fragment() {
             courseViewModel.getCourses("elprofesor", algo)
         }
 
+        view.findViewById<Button>(R.id.addCourseButton).setOnClickListener {
+            courseViewModel.addCourse("elprofesor", algo)
+        }
     }
 }
