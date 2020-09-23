@@ -5,13 +5,16 @@
     android:id="@+id/course_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_marginHorizontal="10dp"
+    android:layout_marginVertical="10dp"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:padding="5dp">
 
     <TextView
         android:id="@+id/tvCourseId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:layout_weight="1"
         android:text="ID:"
         android:textAlignment="center"
