@@ -27,10 +27,10 @@ class CourseAdapter(items: ArrayList<Course>): RecyclerView.Adapter<CourseAdapte
 
     override fun onBindViewHolder(holder: CourseAdapter.ViewHolder, position: Int) {
         val item = items?.get(position)
-        holder.name?.text = item?.name
-        holder.id?.text = item?.id
-        holder.professor?.text = item?.professor
-        holder.students?.text = item?.students
+        holder.name?.text = "Name: " + item?.name
+        holder.id?.text = "Id: " + item?.id
+        holder.professor?.text = "Professor: " + item?.professor
+        holder.students?.text = "# of Students: " + item?.students
     }
 
     override fun getItemCount(): Int {
