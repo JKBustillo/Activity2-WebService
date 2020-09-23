@@ -29,6 +29,8 @@ class CourseAdapter(items: ArrayList<Course>): RecyclerView.Adapter<CourseAdapte
         val item = items?.get(position)
         holder.name?.text = item?.name
         holder.id?.text = item?.id
+        holder.professor?.text = item?.professor
+        holder.students?.text = item?.students
     }
 
     override fun getItemCount(): Int {
@@ -40,10 +42,14 @@ class CourseAdapter(items: ArrayList<Course>): RecyclerView.Adapter<CourseAdapte
 
         var id: TextView? = null
         var name : TextView? = null
+        var professor : TextView? = null
+        var students : TextView? = null
 
         init {
             id = view.tvCourseId
             name = view.tvCourseName
+            professor = view.tvProfessorCourse
+            students = view.tvStudentsCourse
         }
     }
 
