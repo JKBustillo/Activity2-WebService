@@ -6,7 +6,9 @@ import com.jabustillo.webservice.util.PreferenceProvider
 
 object MainRepository {
     var logged = MutableLiveData<Boolean>()
+    var loaded = MutableLiveData<Boolean>()
     var stateLogged : Boolean = false
+    var stateLoaded : Boolean = false
 
     init {
         //stateLogged = PreferenceProvider.getValue()!!
@@ -18,6 +20,14 @@ object MainRepository {
 
     fun setLogged(state: Boolean){
         stateLogged = state
+        logged.value = stateLogged;
+        // PreferenceProvider.setValue(state)
+    }
+
+    fun getCoursesLoaded() = loaded as LiveData<Boolean>
+
+    fun setCoursesLoaded(state: Boolean){
+        stateLoaded = state
         logged.value = stateLogged;
         // PreferenceProvider.setValue(state)
     }

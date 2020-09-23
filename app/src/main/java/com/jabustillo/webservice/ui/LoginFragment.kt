@@ -12,6 +12,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.jabustillo.webservice.R
+import com.jabustillo.webservice.model.Course
 import com.jabustillo.webservice.util.PreferenceProvider
 import com.jabustillo.webservice.viewmodel.CourseViewModel
 import com.jabustillo.webservice.viewmodel.LoginViewModel
@@ -19,11 +20,12 @@ import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : Fragment() {
     private val loginViewModel: LoginViewModel by activityViewModels()
-    val courseViewModel: CourseViewModel by activityViewModels()
+    private val courseViewModel: CourseViewModel by activityViewModels()
     var theToken : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     override fun onCreateView(
@@ -47,6 +49,7 @@ class LoginFragment : Fragment() {
 
         courseViewModel.getCourseData().observe(getViewLifecycleOwner(), Observer { users ->
             Log.d("MyOut", "Fragment  users list " + users.size)
+
         })
 
         view.findViewById<Button>(R.id.loginButton).setOnClickListener {
@@ -58,7 +61,7 @@ class LoginFragment : Fragment() {
                 val clave : String = "123456"
                 val usuario : String = "elprofesor"
 
-                loginViewModel.signIn(email,clave,usuario).observe(getViewLifecycleOwner(), Observer { user ->
+                loginViewModel.signIn(email,clave,usuario).observe(viewLifecycleOwner, Observer { user ->
 
                     //Log.d("MyOut", "Fragment  signIn " + user + " error " + user.error)
                     theToken = user.token

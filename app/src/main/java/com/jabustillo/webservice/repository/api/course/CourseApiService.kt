@@ -63,7 +63,7 @@ class CourseApiService {
             }
 
         })
-
+        Log.d("something", "Course $courses")
         return courses
     }
 
