@@ -8,17 +8,23 @@ import com.jabustillo.webservice.model.Course
 import com.jabustillo.webservice.model.CourseDetail
 import com.jabustillo.webservice.model.Student
 import com.jabustillo.webservice.repository.CourseRepository
+import com.jabustillo.webservice.repository.MainRepository
 import kotlinx.coroutines.launch
 import okhttp3.internal.notify
 
 class CourseViewModel : ViewModel() {
-
+    private val mainRepository = MainRepository
     private val repository = CourseRepository()
     val courses = mutableListOf<Course>()
     val coursesLiveData = MutableLiveData<List<Course>>()
     val courseDetailLiveData = MutableLiveData<CourseDetail>()
     var courseDetail = CourseDetail("", Student("","", "", "", "", "", "", ""), emptyList<Student>())
-    // fun getCourses(user: String, token: String) = repository.getCourses(user, token)
+
+    fun getCoursesLoaded() = mainRepository.getCoursesLoaded()
+
+    fun setCoursesLoaded(state: Boolean){
+        mainRepository.setCoursesLoaded(state)
+    }
 
     fun getCourses(user: String, token: String){
         viewModelScope.launch {
@@ -38,7 +44,7 @@ class CourseViewModel : ViewModel() {
             var course = id.subSequence(4, id.length) as String
             val returnCourseDetail: CourseDetail = repository.getCourseData(user, course, token)
             courseDetail = returnCourseDetail
-            coursesLiveData.postValue(courses.asReversed())
+            courseDetailLiveData.postValue(courseDetail)
         }
     }
 

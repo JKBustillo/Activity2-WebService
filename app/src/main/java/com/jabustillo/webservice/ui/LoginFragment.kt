@@ -62,7 +62,6 @@ class LoginFragment : Fragment() {
                     theToken = user.token
                     if (user.token != "") {
                         Toast.makeText(context, "Token " + user.token, Toast.LENGTH_LONG).show()
-                        // courseViewModel.getCourses("elprofesor",theToken)
                         PreferenceProvider.setValue("token", theToken)
                         loginViewModel.setLogged(true)
                     } else {

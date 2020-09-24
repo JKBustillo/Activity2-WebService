@@ -14,6 +14,7 @@ import com.jabustillo.webservice.R
 import com.jabustillo.webservice.model.Course
 import kotlinx.android.synthetic.main.course_item.view.*
 import androidx.navigation.fragment.findNavController
+import com.jabustillo.webservice.util.PreferenceProvider
 
 
 class   CourseAdapter(items: ArrayList<Course>): RecyclerView.Adapter<CourseAdapter.ViewHolder>() {
@@ -56,6 +57,8 @@ class   CourseAdapter(items: ArrayList<Course>): RecyclerView.Adapter<CourseAdap
             professor = view.tvProfessorCourse
             students = view.tvStudentsCourse
             view.setOnClickListener {
+                val tempId  = it.tvCourseId.text.toString()
+                PreferenceProvider.setValue("courseId", tempId.substring(4, tempId.length))
                 view.findNavController().navigate(R.id.courseInfoFragment)
             }
         }
