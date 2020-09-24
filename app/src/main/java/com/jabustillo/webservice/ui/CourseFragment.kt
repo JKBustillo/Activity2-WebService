@@ -44,7 +44,7 @@ class CourseFragment : Fragment() {
         requireView().courses_recycle.layoutManager = LinearLayoutManager(requireContext())
 
 
-        courseViewModel.coursesLiveData.observe(viewLifecycleOwner, Observer {
+        courseViewModel.coursesLiveData.observe(viewLifecycleOwner, {
             adapter.items?.clear()
             adapter.items?.addAll(it)
             adapter.notifyDataSetChanged()
@@ -56,7 +56,6 @@ class CourseFragment : Fragment() {
 
         view.findViewById<Button>(R.id.addCourseButton).setOnClickListener {
             courseViewModel.addCourse("elprofesor", algo)
-            courseViewModel.getCourseData("elprofesor", "id: 960", algo)
         }
     }
 }

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.jabustillo.webservice.model.Course
 import com.jabustillo.webservice.model.CourseDetail
 import com.jabustillo.webservice.model.Student
+import com.jabustillo.webservice.model.StudentResume
 import com.jabustillo.webservice.repository.CourseRepository
 import com.jabustillo.webservice.repository.MainRepository
 import kotlinx.coroutines.launch
@@ -15,10 +16,11 @@ import okhttp3.internal.notify
 class CourseViewModel : ViewModel() {
     private val mainRepository = MainRepository
     private val repository = CourseRepository()
-    val courses = mutableListOf<Course>()
+    private val courses = mutableListOf<Course>()
     val coursesLiveData = MutableLiveData<List<Course>>()
     val courseDetailLiveData = MutableLiveData<CourseDetail>()
-    var courseDetail = CourseDetail("", Student("","", "", "", "", "", "", ""), emptyList<Student>())
+    private val courseDetail = CourseDetail("", StudentResume(), emptyList<StudentResume>() )
+
 
     fun getCoursesLoaded() = mainRepository.getCoursesLoaded()
 
@@ -40,11 +42,14 @@ class CourseViewModel : ViewModel() {
     }
 
     fun getCourseData(user: String, id: String,  token: String) {
+        Log.d("TestStudents", "Algo")
         viewModelScope.launch {
-            var course = id.subSequence(4, id.length) as String
+            var course = id as String
             val returnCourseDetail: CourseDetail = repository.getCourseData(user, course, token)
-            courseDetail = returnCourseDetail
-            courseDetailLiveData.postValue(courseDetail)
+            courseDetail.name = returnCourseDetail.name
+            courseDetail.professor = returnCourseDetail.professor
+            courseDetail.student = returnCourseDetail.student
+            courseDetailLiveData.postValue(returnCourseDetail)
         }
     }
 

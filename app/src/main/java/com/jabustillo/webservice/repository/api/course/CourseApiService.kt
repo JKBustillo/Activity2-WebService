@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.jabustillo.webservice.model.Course
 import com.jabustillo.webservice.model.CourseDetail
 import com.jabustillo.webservice.model.Student
+import com.jabustillo.webservice.model.StudentResume
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.*
@@ -18,7 +19,7 @@ class CourseApiService {
 
         val theResponse = MutableLiveData<List<Course>>()
         var courses = mutableListOf<Course>()
-
+        var courseDetail = CourseDetail("", StudentResume(), emptyList<StudentResume>())
         fun getRestEngine(): CourseApi {
             val interceptor = HttpLoggingInterceptor()
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -34,7 +35,8 @@ class CourseApiService {
     }
 
     fun getCourseData(user: String, course: String, token: String) : CourseDetail {
-        var courseDetail = CourseDetail("", Student("","", "", "", "", "", "", ""), emptyList<Student>())
+
+
 
         //Log.d("MyOut", "getCourses with token  <" + token+">")
         val auth = "Bearer "+token

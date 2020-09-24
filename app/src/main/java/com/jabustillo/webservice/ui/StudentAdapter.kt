@@ -7,10 +7,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.jabustillo.webservice.R
 import com.jabustillo.webservice.model.Student
+import com.jabustillo.webservice.model.StudentResume
 import kotlinx.android.synthetic.main.student_item.view.*
 
-class StudentAdapter(items: ArrayList<Student>): RecyclerView.Adapter<StudentAdapter.ViewHolder>() {
-    var items : ArrayList<Student>? = null
+class StudentAdapter(items: MutableList<StudentResume>): RecyclerView.Adapter<StudentAdapter.ViewHolder>() {
+    var items : MutableList<StudentResume>? = null
     var viewHolder: ViewHolder? = null
 
     init {
@@ -31,10 +32,10 @@ class StudentAdapter(items: ArrayList<Student>): RecyclerView.Adapter<StudentAda
         holder.name?.text = item?.name
         holder.username?.text = item?.username
         holder.email?.text = item?.email
-        holder.phone?.text = item?.phone
-        holder.city?.text = item?.city
-        holder.country?.text = item?.country
-        holder.birthday?.text = item?.birthday
+//        holder.phone?.text = item?.phone
+//        holder.city?.text = item?.city
+//        holder.country?.text = item?.country
+//        holder.birthday?.text = item?.birthday
     }
 
     override fun getItemCount(): Int {
@@ -58,10 +59,6 @@ class StudentAdapter(items: ArrayList<Student>): RecyclerView.Adapter<StudentAda
             name = view.userStudentDetails
             username = view.usernameStudentDetails
             email = view.emailStudentDetails
-            phone = view.phoneStudentDetails
-            city = view.cityStudentDetails
-            country = view.countryStudentDetails
-            birthday = view.birthdayStudentDetails
         }
     }
 

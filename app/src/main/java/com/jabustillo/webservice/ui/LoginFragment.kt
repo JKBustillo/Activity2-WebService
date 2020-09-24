@@ -56,20 +56,26 @@ class LoginFragment : Fragment() {
                 val clave : String = "123456"
                 val usuario : String = "elprofesor"
 
-                loginViewModel.signIn(email,clave,usuario).observe(viewLifecycleOwner, Observer { user ->
+                loginViewModel.signIn(email,clave,usuario).observe(
+                    viewLifecycleOwner,
+                    Observer { user ->
 
-                    //Log.d("MyOut", "Fragment  signIn " + user + " error " + user.error)
-                    theToken = user.token
-                    if (user.token != "") {
-                        Toast.makeText(context, "Token " + user.token, Toast.LENGTH_LONG).show()
-                        PreferenceProvider.setValue("token", theToken)
-                        loginViewModel.setLogged(true)
-                    } else {
-                        Toast.makeText(context, "Token failure " + user.error, Toast.LENGTH_LONG)
-                            .show()
-                    }
+                        //Log.d("MyOut", "Fragment  signIn " + user + " error " + user.error)
+                        theToken = user.token
+                        if (user.token != "") {
+                            Toast.makeText(context, "Token " + user.token, Toast.LENGTH_LONG).show()
+                            PreferenceProvider.setValue("token", theToken)
+                            loginViewModel.setLogged(true)
+                        } else {
+                            Toast.makeText(
+                                context,
+                                "Token failure " + user.error,
+                                Toast.LENGTH_LONG
+                            )
+                                .show()
+                        }
 
-                })
+                    })
             } else {
                 Toast.makeText(
                     requireActivity(),
