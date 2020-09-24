@@ -1,6 +1,7 @@
 package com.jabustillo.webservice.repository.api.course
 
 import com.jabustillo.webservice.model.Course
+import com.jabustillo.webservice.model.CourseDetail
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -13,11 +14,11 @@ interface CourseApi {
     ): Call<List<Course>>
 
     @GET("{dbId}/courses/{courseId}")
-    fun getCourse(
+    fun getCourseData(
         @Path("dbId") user: String,
         @Path("courseId") course: String,
         @Header ("Authorization") header: String
-    ): Call<List<Course>>
+    ): Call<CourseDetail>
 
     @POST("{dbId}/courses")
     fun addCourse(@Path("dbId") user: String, @Header ("Authorization") header: String): Call<Course>

@@ -4,6 +4,8 @@ package com.jabustillo.webservice.repository.api.course
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.jabustillo.webservice.model.Course
+import com.jabustillo.webservice.model.CourseDetail
+import com.jabustillo.webservice.model.Student
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.*
@@ -31,7 +33,35 @@ class CourseApiService {
         }
     }
 
-    fun getCourseData() = theResponse
+    fun getCourseData(user: String, course: String, token: String) : CourseDetail {
+        var courseDetail = CourseDetail("", Student("","", "", "", "", "", "", ""), emptyList<Student>())
+
+        //Log.d("MyOut", "getCourses with token  <" + token+">")
+        val auth = "Bearer "+token
+        getRestEngine().getCourseData(user,course,auth).enqueue(object: Callback<CourseDetail> {
+            override fun onResponse(call: Call<CourseDetail>, response: Response<CourseDetail>) {
+                if (response.isSuccessful) {
+                    Log.d("MyOut", "OK isSuccessful ")
+                    val loginResponse = response.body()
+                    if (loginResponse != null) {
+                        //theResponse.value = response.body()
+                        courseDetail = response.body() as CourseDetail
+                    }
+                } else {
+                    Log.d("MyOut", "NOK  "+response.code() )
+                    Log.d("MyOut", "NOK  "+response.toString() )
+                    Log.d("MyOut", "NOK  "+response.errorBody().toString() )
+                }
+            }
+
+            override fun onFailure(call: Call<CourseDetail>, t: Throwable) {
+                Log.d("MyOut","Failure "+t.message)
+            }
+
+        })
+        Log.d("something", "Course $courseDetail")
+        return courseDetail!!
+    }
 
 
     fun getCourses(user: String, token: String): List<Course> {
@@ -41,7 +71,7 @@ class CourseApiService {
         getRestEngine().getCourses(user,auth).enqueue(object: Callback<List<Course>>{
             override fun onResponse(call: Call<List<Course>>, response: Response<List<Course>>) {
                 if (response.isSuccessful) {
-                    Log.d("MyOut", "OK isSuccessful ")
+                    //Log.d("MyOut", "OK isSuccessful ")
                     val loginResponse = response.body()
                     if (loginResponse != null) {
                         //theResponse.value = response.body()
@@ -63,7 +93,6 @@ class CourseApiService {
             }
 
         })
-        Log.d("something", "Course $courses")
         return courses
     }
 
