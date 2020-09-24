@@ -47,10 +47,6 @@ class LoginFragment : Fragment() {
             }
         })
 
-<<<<<<< HEAD
-=======
-
->>>>>>> feat(CourseDetail): Small fixes CourseDetailViewModel
         view.findViewById<Button>(R.id.loginButton).setOnClickListener {
             if (userLoginInput.text.toString() == PreferenceProvider.getValue("user").toString() && passwordLoginInput.text.toString() == PreferenceProvider.getValue("pass").toString()) {
                 // val usuario : String = userLoginInput.text.toString()

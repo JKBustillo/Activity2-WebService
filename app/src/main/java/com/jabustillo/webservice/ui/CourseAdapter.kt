@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.jabustillo.webservice.R
@@ -24,12 +25,7 @@ class   CourseAdapter(items: ArrayList<Course>): RecyclerView.Adapter<CourseAdap
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseAdapter.ViewHolder {
         val view = LayoutInflater.from(parent?.context).inflate(R.layout.course_item, parent, false)
-
         viewHolder = ViewHolder(view)
-
-        viewHolder!!.itemView.setOnClickListener {
-            Navigation.createNavigateOnClickListener(R.id.courseInfoFragment)
-        }
         return viewHolder!!
     }
 
@@ -39,6 +35,7 @@ class   CourseAdapter(items: ArrayList<Course>): RecyclerView.Adapter<CourseAdap
         holder.id?.text = "Id: " + item?.id
         holder.professor?.text = "Professor: " + item?.professor
         holder.students?.text = "# of Students: " + item?.students
+
     }
 
     override fun getItemCount(): Int {
@@ -46,7 +43,7 @@ class   CourseAdapter(items: ArrayList<Course>): RecyclerView.Adapter<CourseAdap
     }
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        var view = view
+//        var view = view
 
         var id: TextView? = null
         var name : TextView? = null
@@ -58,7 +55,13 @@ class   CourseAdapter(items: ArrayList<Course>): RecyclerView.Adapter<CourseAdap
             name = view.tvCourseName
             professor = view.tvProfessorCourse
             students = view.tvStudentsCourse
+            view.setOnClickListener {
+                view.findNavController().navigate(R.id.courseInfoFragment)
+            }
         }
+
+
+
     }
 
 }
