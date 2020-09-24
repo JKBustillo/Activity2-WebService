@@ -47,11 +47,6 @@ class LoginFragment : Fragment() {
             }
         })
 
-        courseViewModel.getCourseData().observe(getViewLifecycleOwner(), Observer { users ->
-            Log.d("MyOut", "Fragment  users list " + users.size)
-
-        })
-
         view.findViewById<Button>(R.id.loginButton).setOnClickListener {
             if (userLoginInput.text.toString() == PreferenceProvider.getValue("user").toString() && passwordLoginInput.text.toString() == PreferenceProvider.getValue("pass").toString()) {
                 // val usuario : String = userLoginInput.text.toString()
