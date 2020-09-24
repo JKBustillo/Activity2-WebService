@@ -2,7 +2,7 @@ package com.jabustillo.webservice.model
 
 class Student (
     var id: String,
-    var user: String,
+    var name: String,
     var username: String,
     var email: String,
     var phone: String,
