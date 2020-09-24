@@ -28,7 +28,7 @@ class StudentAdapter(items: ArrayList<Student>): RecyclerView.Adapter<StudentAda
     override fun onBindViewHolder(holder: StudentAdapter.ViewHolder, position: Int) {
         val item = items?.get(position)
         holder.id?.text = item?.id
-        holder.user?.text = item?.user
+        holder.name?.text = item?.name
         holder.username?.text = item?.username
         holder.email?.text = item?.email
         holder.phone?.text = item?.phone
@@ -45,7 +45,7 @@ class StudentAdapter(items: ArrayList<Student>): RecyclerView.Adapter<StudentAda
         var view = view
 
         var id: TextView? = null
-        var user : TextView? = null
+        var name : TextView? = null
         var username : TextView? = null
         var email : TextView? = null
         var phone: TextView? = null
@@ -55,7 +55,7 @@ class StudentAdapter(items: ArrayList<Student>): RecyclerView.Adapter<StudentAda
 
         init {
             id = view.idStudentDetails
-            user = view.userStudentDetails
+            name = view.userStudentDetails
             username = view.usernameStudentDetails
             email = view.emailStudentDetails
             phone = view.phoneStudentDetails
