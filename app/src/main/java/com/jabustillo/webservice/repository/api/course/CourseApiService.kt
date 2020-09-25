@@ -19,7 +19,7 @@ class CourseApiService {
 
         val theResponse = MutableLiveData<List<Course>>()
         var courses = mutableListOf<Course>()
-        var courseDetail = CourseDetail("", StudentResume(), emptyList<StudentResume>())
+        var courseDetail = CourseDetail("", StudentResume(), mutableListOf<StudentResume>())
         fun getRestEngine(): CourseApi {
             val interceptor = HttpLoggingInterceptor()
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -35,10 +35,7 @@ class CourseApiService {
     }
 
     fun getCourseData(user: String, course: String, token: String) : CourseDetail {
-
-
-
-        //Log.d("MyOut", "getCourses with token  <" + token+">")
+         //Log.d("MyOut", "getCourses with token  <" + token+">")
         val auth = "Bearer "+token
         getRestEngine().getCourseData(user,course,auth).enqueue(object: Callback<CourseDetail> {
             override fun onResponse(call: Call<CourseDetail>, response: Response<CourseDetail>) {
@@ -62,7 +59,7 @@ class CourseApiService {
 
         })
         Log.d("something", "Course $courseDetail")
-        return courseDetail!!
+        return courseDetail
     }
 
 
