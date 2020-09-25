@@ -62,6 +62,8 @@ class HomeFragment : Fragment() {
             navController.navigate(R.id.courseFragment)
         }
 
-
+        view.findViewById<Button>(R.id.restartButton).setOnClickListener {
+            courseViewModel.restartDB(PreferenceProvider.getValue("user"), PreferenceProvider.getValue("token"))
+        }
     }
 }

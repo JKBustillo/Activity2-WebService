@@ -11,4 +11,6 @@ class CourseRepository {
     fun addCourse(user: String, token: String) = service.addCourse(user,token)
 
     fun getCourseData(user: String, course: String, token:String) = service.getCourseData(user, course, token)
+
+    fun restartDB(user: String, token: String) = service.restartDB(user, token)
 }

@@ -23,4 +23,9 @@ interface CourseApi {
     @POST("{dbId}/courses")
     fun addCourse(@Path("dbId") user: String, @Header ("Authorization") header: String): Call<Course>
 
+    @GET("{dbId}/restart")
+    fun restartDB(
+            @Path("dbId") user: String,
+            @Header ("Authorization") header: String
+    ): Call<Boolean>
 }

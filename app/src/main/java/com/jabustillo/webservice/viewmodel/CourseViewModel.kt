@@ -16,10 +16,10 @@ import okhttp3.internal.notify
 class CourseViewModel : ViewModel() {
     private val mainRepository = MainRepository
     private val repository = CourseRepository()
-    private val courses = mutableListOf<Course>()
-    val coursesLiveData = MutableLiveData<List<Course>>()
-    val courseDetailLiveData = MutableLiveData<CourseDetail>()
-    private val courseDetail = CourseDetail("", StudentResume(), emptyList<StudentResume>() )
+    private var courses = mutableListOf<Course>()
+    var coursesLiveData = MutableLiveData<List<Course>>()
+    var courseDetailLiveData = MutableLiveData<CourseDetail>()
+    private var courseDetail = CourseDetail("", StudentResume(), emptyList<StudentResume>() )
 
 
     fun getCoursesLoaded() = mainRepository.getCoursesLoaded()
@@ -28,9 +28,14 @@ class CourseViewModel : ViewModel() {
         mainRepository.setCoursesLoaded(state)
     }
 
+    fun restartDB(user: String, token: String) {
+        repository.restartDB(user, token)
+    }
+
     fun getCourses(user: String, token: String){
         viewModelScope.launch {
             val theReturnCourse = repository.getCourses(user, token)
+            courses = mutableListOf<Course>()
             courses.addAll(theReturnCourse)
             coursesLiveData.postValue(courses.asReversed())
         }

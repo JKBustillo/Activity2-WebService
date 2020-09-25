@@ -34,10 +34,33 @@ class CourseApiService {
         }
     }
 
+    fun restartDB(user: String, token: String) : Boolean {
+        var result : Boolean = false
+        //Log.d("MyOut", "getCourses with token  <" + token+">")
+        val auth = "Bearer "+token
+        getRestEngine().restartDB(user,auth).enqueue(object: Callback<Boolean> {
+            override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
+                if (response.isSuccessful) {
+                    Log.d("MyOut", "OK isSuccessful ")
+                    val loginResponse = response.body()
+                    if (loginResponse != null) {
+                        result = response.body() as Boolean
+                    }
+                } else {
+                    Log.d("MyOut", "NOK  "+response.code() )
+                    Log.d("MyOut", "NOK  "+response.toString() )
+                    Log.d("MyOut", "NOK  "+response.errorBody().toString() )
+                }
+            }
+
+            override fun onFailure(call: Call<Boolean>, t: Throwable) {
+                Log.d("MyOut","Failure "+t.message)
+            }
+        })
+        return result
+    }
+
     fun getCourseData(user: String, course: String, token: String) : CourseDetail {
-
-
-
         //Log.d("MyOut", "getCourses with token  <" + token+">")
         val auth = "Bearer "+token
         getRestEngine().getCourseData(user,course,auth).enqueue(object: Callback<CourseDetail> {
