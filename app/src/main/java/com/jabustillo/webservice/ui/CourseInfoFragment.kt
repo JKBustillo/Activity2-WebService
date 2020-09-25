@@ -13,6 +13,7 @@ import com.jabustillo.webservice.R
 import com.jabustillo.webservice.model.Course
 import com.jabustillo.webservice.model.CourseDetail
 import com.jabustillo.webservice.model.Student
+import com.jabustillo.webservice.model.StudentResume
 import com.jabustillo.webservice.util.PreferenceProvider
 import com.jabustillo.webservice.viewmodel.CourseViewModel
 import kotlinx.android.synthetic.main.fragment_course.view.*
@@ -25,6 +26,7 @@ class CourseInfoFragment : Fragment() {
     var courseId : String = PreferenceProvider.getValue("courseId")
     var token : String = PreferenceProvider.getValue("token")
     private val adapter = StudentAdapter(ArrayList())
+    private var tempStudents = ArrayList<StudentResume>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         courseViewModel.getCourseData(PreferenceProvider.getValue("user"), courseId, token)
@@ -50,7 +52,7 @@ class CourseInfoFragment : Fragment() {
 
         courseViewModel.courseDetailLiveData.observe(viewLifecycleOwner,  {
             adapter.items?.clear()
-//            adapter.items?.addAll(it.student)
+            adapter.items?.addAll(it.students)
             adapter.notifyDataSetChanged()
         })
 
@@ -60,6 +62,12 @@ class CourseInfoFragment : Fragment() {
            usernameProfessorDetails.text = it.professor?.username
            emailProfessorDetails.text = it.professor?.email
            courseName.text = it.name
+
+           if(!it.students.isNullOrEmpty()){
+               emailProfessorDetails.text = it.students[0].name
+           }else{
+               emailProfessorDetails.text = "Chanfle"
+           }
         })
 
         view.findViewById<FloatingActionButton>(R.id.idUpdateDetails).setOnClickListener {

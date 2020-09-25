@@ -120,7 +120,6 @@ class CourseApiService {
     }
 
     fun getCourseData(user: String, course: String, token: String) : CourseDetail {
-        //Log.d("MyOut", "getCourses with token  <" + token+">")
         val auth = "Bearer "+token
         getRestEngine().getCourseData(user,course,auth).enqueue(object: Callback<CourseDetail> {
             override fun onResponse(call: Call<CourseDetail>, response: Response<CourseDetail>) {
@@ -144,7 +143,7 @@ class CourseApiService {
 
         })
         Log.d("something", "Course $courseDetail")
-        return courseDetail!!
+        return courseDetail
     }
 
 

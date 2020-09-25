@@ -17,8 +17,8 @@ import androidx.navigation.fragment.findNavController
 import com.jabustillo.webservice.util.PreferenceProvider
 
 
-class   CourseAdapter(items: ArrayList<Course>): RecyclerView.Adapter<CourseAdapter.ViewHolder>() {
-    var items : ArrayList<Course>? = null
+class   CourseAdapter(items: MutableList<Course>): RecyclerView.Adapter<CourseAdapter.ViewHolder>() {
+    var items : MutableList <Course>? = null
     var viewHolder: ViewHolder? = null
     init {
         this.items = items
