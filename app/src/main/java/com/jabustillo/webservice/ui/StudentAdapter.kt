@@ -4,10 +4,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.jabustillo.webservice.R
 import com.jabustillo.webservice.model.Student
 import com.jabustillo.webservice.model.StudentResume
+import com.jabustillo.webservice.util.PreferenceProvider
+import kotlinx.android.synthetic.main.course_item.view.*
 import kotlinx.android.synthetic.main.student_item.view.*
 
 class StudentAdapter(items: MutableList<StudentResume>): RecyclerView.Adapter<StudentAdapter.ViewHolder>() {
@@ -49,16 +52,20 @@ class StudentAdapter(items: MutableList<StudentResume>): RecyclerView.Adapter<St
         var name : TextView? = null
         var username : TextView? = null
         var email : TextView? = null
-        var phone: TextView? = null
-        var city: TextView? = null
-        var country: TextView? = null
-        var birthday: TextView? = null
+//        var phone: TextView? = null
+//        var city: TextView? = null
+//        var country: TextView? = null
+//        var birthday: TextView? = null
 
         init {
             id = view.idStudentDetails
             name = view.userStudentDetails
             username = view.usernameStudentDetails
             email = view.emailStudentDetails
+            PreferenceProvider.setValue("studentId", id.toString())
+            view.setOnClickListener {
+                view.findNavController().navigate(R.id.studentInfoFragment)
+            }
         }
     }
 

@@ -44,4 +44,12 @@ interface CourseApi {
             @Header ("Authorization") header: String
     ): Call<Student>
 
+    @FormUrlEncoded
+    @POST("{dbId}/students")
+    fun addStudent(
+        @Path("dbId") user: String,
+        @Header ("Authorization") header: String,
+        @Field("courseId") courseId: String
+    ): Call<Student>
+
 }

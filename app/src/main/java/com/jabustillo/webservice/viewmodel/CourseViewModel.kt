@@ -20,6 +20,10 @@ class CourseViewModel : ViewModel() {
     var coursesLiveData = MutableLiveData<List<Course>>()
     var courseDetailLiveData = MutableLiveData<CourseDetail>()
     private var courseDetail = CourseDetail("", StudentResume(), mutableListOf<StudentResume>() )
+    var professorDetailLiveData  = MutableLiveData<Student>()
+    private var professor = Student()
+    var studentDetailLiveData  = MutableLiveData<Student>()
+    private var student = Student()
 
 
     fun getCoursesLoaded() = mainRepository.getCoursesLoaded()
@@ -52,15 +56,28 @@ class CourseViewModel : ViewModel() {
             var course = id as String
             var returnCourseDetail: CourseDetail = repository.getCourseData(user, course, token)
             courseDetail = returnCourseDetail
-            courseDetailLiveData.postValue(returnCourseDetail)
+            courseDetailLiveData.postValue(courseDetail)
         }
     }
 
     fun getProfessorData(user: String, id: String, token: String) {
-        repository.getProfessorData(user, id, token)
+        viewModelScope.launch {
+            val returnProfessor: Student = repository.getProfessorData(user, id, token)
+            professor = returnProfessor
+            professorDetailLiveData.postValue(professor)
+        }
     }
 
     fun getStudentData(user: String, id: String, token: String) {
-        repository.getStudentData(user, id, token)
+        viewModelScope.launch {
+            val returnProfessor: Student = repository.getProfessorData(user, id, token)
+            student = returnProfessor
+            studentDetailLiveData.postValue(student)
+        }
+    }
+
+
+    fun addStudent(user: String, token: String, course: String)  {
+        repository.addStudent(user, token, course)
     }
 }

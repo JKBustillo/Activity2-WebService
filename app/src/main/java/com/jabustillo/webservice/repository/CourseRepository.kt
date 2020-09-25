@@ -17,4 +17,6 @@ class CourseRepository {
     fun getProfessorData(user: String, professor: String, token:String) = service.getProfessorData(user, professor, token)
 
     fun getStudentData(user: String, student: String, token:String) = service.getStudentData(user, student, token)
+
+    fun addStudent(user: String, token: String, course: String) = service.addStudent(user,token, course)
 }

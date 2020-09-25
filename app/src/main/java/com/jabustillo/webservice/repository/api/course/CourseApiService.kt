@@ -20,6 +20,7 @@ class CourseApiService {
         val theResponse = MutableLiveData<List<Course>>()
         var courses = mutableListOf<Course>()
         var courseDetail = CourseDetail("", StudentResume(), mutableListOf<StudentResume>())
+        var professorInfo: Student = Student()
         fun getRestEngine(): CourseApi {
             val interceptor = HttpLoggingInterceptor()
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -35,8 +36,6 @@ class CourseApiService {
     }
 
     fun getProfessorData(user: String, professor: String, token: String) : Student {
-        var professorInfo = Student("","", "", "", "", "", "", "")
-
         val auth = "Bearer "+token
         getRestEngine().getProfessorData(user,professor,auth).enqueue(object: Callback<Student> {
             override fun onResponse(call: Call<Student>, response: Response<Student>) {
@@ -201,6 +200,31 @@ class CourseApiService {
             }
 
             override fun onFailure(call: Call<Course>, t: Throwable) {
+                Log.d("MyOut","Failure "+t.message)
+            }
+
+        })
+    }
+
+    fun addStudent(user: String, token: String, course: String) {
+        val auth = "Bearer "+token
+        getRestEngine().addStudent(user,auth,course).enqueue(object: Callback<Student>{
+            override fun onResponse(call: Call<Student>, response: Response<Student>) {
+                if (response.isSuccessful) {
+                    Log.d("MyOut", "OK isSuccessful ")
+                    val loginResponse = response.body()
+                    if (loginResponse != null) {
+                        //Log.d("MyOut", "OK isSuccessful token " )
+                        val student : Student = response.body()!!
+                    }
+                } else {
+                    Log.d("MyOut", "NOK  "+response.code() )
+                    Log.d("MyOut", "NOK  "+response.toString() )
+                    Log.d("MyOut", "NOK  "+response.errorBody().toString() )
+                }
+            }
+
+            override fun onFailure(call: Call<Student>, t: Throwable) {
                 Log.d("MyOut","Failure "+t.message)
             }
 

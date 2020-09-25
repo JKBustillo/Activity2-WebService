@@ -19,6 +19,10 @@ import com.jabustillo.webservice.viewmodel.CourseViewModel
 import kotlinx.android.synthetic.main.fragment_course.view.*
 import kotlinx.android.synthetic.main.fragment_course_info.*
 import kotlinx.android.synthetic.main.fragment_course_info.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.Observer
 
 class CourseInfoFragment : Fragment() {
@@ -30,6 +34,7 @@ class CourseInfoFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         courseViewModel.getCourseData(PreferenceProvider.getValue("user"), courseId, token)
+        courseViewModel.getProfessorData(PreferenceProvider.getValue("user"), courseId, token)
 
     }
 
@@ -49,6 +54,7 @@ class CourseInfoFragment : Fragment() {
         requireView().recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         courseViewModel.getCourseData(PreferenceProvider.getValue("user"), courseId, token)
+        courseViewModel.getProfessorData(PreferenceProvider.getValue("user"), courseId, token)
 
         courseViewModel.courseDetailLiveData.observe(viewLifecycleOwner,  {
             adapter.items?.clear()
@@ -70,8 +76,23 @@ class CourseInfoFragment : Fragment() {
            }
         })
 
+        courseViewModel.professorDetailLiveData.observe(viewLifecycleOwner,  {student ->
+            phoneProfessorDetails.text = student?.phone
+            cityProfessorDetails.text = student?.city
+            countryProfessorDetails.text = student?.country
+            birthdayProfessorDetails.text = student?.birthday
+        })
+
         view.findViewById<FloatingActionButton>(R.id.idUpdateDetails).setOnClickListener {
+            courseViewModel.getProfessorData(PreferenceProvider.getValue("user"), courseId, token)
             courseViewModel.getCourseData(PreferenceProvider.getValue("user"), courseId, token)
+
+        }
+
+        view.findViewById<Button>(R.id.button).setOnClickListener {
+            courseViewModel.addStudent(PreferenceProvider.getValue("user"), token, courseId)
+            courseViewModel.getCourseData(PreferenceProvider.getValue("user"), courseId, token)
+
         }
 
 
