@@ -49,18 +49,13 @@ class LoginFragment : Fragment() {
 
         view.findViewById<Button>(R.id.loginButton).setOnClickListener {
             if (userLoginInput.text.toString() == PreferenceProvider.getValue("user").toString() && passwordLoginInput.text.toString() == PreferenceProvider.getValue("pass").toString()) {
-                // val usuario : String = userLoginInput.text.toString()
-                // val clave : String = passwordLoginInput.text.toString()
-
-                val email : String =  "augusto@a.com"
-                val clave : String = "123456"
-                val usuario : String = "elprofesor"
+                val usuario : String = PreferenceProvider.getValue("user")
+                val clave : String = PreferenceProvider.getValue("password")
+                val email : String = PreferenceProvider.getValue("email")
 
                 loginViewModel.signIn(email,clave,usuario).observe(
                     viewLifecycleOwner,
                     Observer { user ->
-
-                        //Log.d("MyOut", "Fragment  signIn " + user + " error " + user.error)
                         theToken = user.token
                         if (user.token != "") {
                             Toast.makeText(context, "Token " + user.token, Toast.LENGTH_LONG).show()

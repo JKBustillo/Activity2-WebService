@@ -58,7 +58,7 @@ class HomeFragment : Fragment() {
         }
 
         view.findViewById<Button>(R.id.courses).setOnClickListener {
-//            courseViewModel.getCourses("elprofesor", tok)
+//            courseViewModel.getCourses(PreferenceProvider.getValue("user"), tok)
             navController.navigate(R.id.courseFragment)
         }
 

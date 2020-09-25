@@ -27,7 +27,7 @@ class CourseInfoFragment : Fragment() {
     private val adapter = StudentAdapter(ArrayList())
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        courseViewModel.getCourseData("elprofesor", courseId, token)
+        courseViewModel.getCourseData(PreferenceProvider.getValue("user"), courseId, token)
 
     }
 
@@ -46,7 +46,7 @@ class CourseInfoFragment : Fragment() {
         requireView().recyclerView.adapter = adapter
         requireView().recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        courseViewModel.getCourseData("elprofesor", courseId, token)
+        courseViewModel.getCourseData(PreferenceProvider.getValue("user"), courseId, token)
 
         courseViewModel.courseDetailLiveData.observe(viewLifecycleOwner,  {
             adapter.items?.clear()
@@ -63,7 +63,7 @@ class CourseInfoFragment : Fragment() {
         })
 
         view.findViewById<FloatingActionButton>(R.id.idUpdateDetails).setOnClickListener {
-            courseViewModel.getCourseData("elprofesor", courseId, token)
+            courseViewModel.getCourseData(PreferenceProvider.getValue("user"), courseId, token)
         }
 
 

@@ -24,7 +24,7 @@ class CourseFragment : Fragment() {
     val algo = PreferenceProvider.getValue("token")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        courseViewModel.getCourses("elprofesor", algo)
+        courseViewModel.getCourses(PreferenceProvider.getValue("user"), algo)
     }
 
     override fun onCreateView(
@@ -39,7 +39,7 @@ class CourseFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        courses = courseViewModel.getCourses("elprofesor", PreferenceProvider.getValue("token"))
+//        courses = courseViewModel.getCourses(PreferenceProvider.getValue("user"), PreferenceProvider.getValue("token"))
         requireView().courses_recycle.adapter = adapter
         requireView().courses_recycle.layoutManager = LinearLayoutManager(requireContext())
 
@@ -51,11 +51,12 @@ class CourseFragment : Fragment() {
         })
 
         view.findViewById<Button>(R.id.updateCoursesButton).setOnClickListener {
-            courseViewModel.getCourses("elprofesor", algo)
+            courseViewModel.getCourses(PreferenceProvider.getValue("user"), algo)
         }
 
         view.findViewById<Button>(R.id.addCourseButton).setOnClickListener {
-            courseViewModel.addCourse("elprofesor", algo)
+            courseViewModel.addCourse(PreferenceProvider.getValue("user"), algo)
+            courseViewModel.getCourses(PreferenceProvider.getValue("user"), algo)
         }
     }
 }
