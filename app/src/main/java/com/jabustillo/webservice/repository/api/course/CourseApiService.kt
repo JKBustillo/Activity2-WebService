@@ -19,7 +19,7 @@ class CourseApiService {
 
         val theResponse = MutableLiveData<List<Course>>()
         var courses = mutableListOf<Course>()
-        var courseDetail = CourseDetail("", StudentResume(), emptyList<StudentResume>())
+        var courseDetail = CourseDetail("", StudentResume(), mutableListOf<StudentResume>())
         fun getRestEngine(): CourseApi {
             val interceptor = HttpLoggingInterceptor()
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -32,6 +32,65 @@ class CourseApiService {
                 .create(CourseApi::class.java)
 
         }
+    }
+
+    fun getProfessorData(user: String, professor: String, token: String) : Student {
+        var professorInfo = Student("","", "", "", "", "", "", "")
+
+        val auth = "Bearer "+token
+        getRestEngine().getProfessorData(user,professor,auth).enqueue(object: Callback<Student> {
+            override fun onResponse(call: Call<Student>, response: Response<Student>) {
+                if (response.isSuccessful) {
+                    Log.d("MyOut", "OK isSuccessful ")
+                    val loginResponse = response.body()
+                    if (loginResponse != null) {
+                        //theResponse.value = response.body()
+                        professorInfo = response.body() as Student
+                    }
+                } else {
+                    Log.d("MyOut", "NOK  "+response.code() )
+                    Log.d("MyOut", "NOK  "+response.toString() )
+                    Log.d("MyOut", "NOK  "+response.errorBody().toString() )
+                }
+            }
+
+            override fun onFailure(call: Call<Student>, t: Throwable) {
+                Log.d("MyOut","Failure "+t.message)
+            }
+
+        })
+
+        return professorInfo!!
+    }
+
+    fun getStudentData(user: String, professor: String, token: String) : Student {
+        var professorInfo = Student("","", "", "", "", "", "", "")
+
+        //Log.d("MyOut", "getCourses with token  <" + token+">")
+        val auth = "Bearer "+token
+        getRestEngine().getStudentData(user,professor,auth).enqueue(object: Callback<Student> {
+            override fun onResponse(call: Call<Student>, response: Response<Student>) {
+                if (response.isSuccessful) {
+                    Log.d("MyOut", "OK isSuccessful ")
+                    val loginResponse = response.body()
+                    if (loginResponse != null) {
+                        //theResponse.value = response.body()
+                        professorInfo = response.body() as Student
+                    }
+                } else {
+                    Log.d("MyOut", "NOK  "+response.code() )
+                    Log.d("MyOut", "NOK  "+response.toString() )
+                    Log.d("MyOut", "NOK  "+response.errorBody().toString() )
+                }
+            }
+
+            override fun onFailure(call: Call<Student>, t: Throwable) {
+                Log.d("MyOut","Failure "+t.message)
+            }
+
+        })
+
+        return professorInfo!!
     }
 
     fun restartDB(user: String, token: String) : Boolean {

@@ -59,7 +59,7 @@ class CourseInfoFragment : Fragment() {
            userProfessorDetails.text = it.professor?.name
            usernameProfessorDetails.text = it.professor?.username
            emailProfessorDetails.text = it.professor?.email
-
+           courseName.text = it.name
         })
 
         view.findViewById<FloatingActionButton>(R.id.idUpdateDetails).setOnClickListener {

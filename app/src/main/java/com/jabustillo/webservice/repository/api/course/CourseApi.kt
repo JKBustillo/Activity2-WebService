@@ -2,6 +2,7 @@ package com.jabustillo.webservice.repository.api.course
 
 import com.jabustillo.webservice.model.Course
 import com.jabustillo.webservice.model.CourseDetail
+import com.jabustillo.webservice.model.Student
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -28,4 +29,19 @@ interface CourseApi {
             @Path("dbId") user: String,
             @Header ("Authorization") header: String
     ): Call<Boolean>
+
+    @GET("{dbId}/professors/{professorId}")
+    fun getProfessorData(
+            @Path("dbId") user: String,
+            @Path("professorId") professor: String,
+            @Header ("Authorization") header: String
+    ): Call<Student>
+
+    @GET("{dbId}/students/{studentId}")
+    fun getStudentData(
+            @Path("dbId") user: String,
+            @Path("studentId") student: String,
+            @Header ("Authorization") header: String
+    ): Call<Student>
+
 }

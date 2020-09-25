@@ -58,4 +58,11 @@ class CourseViewModel : ViewModel() {
         }
     }
 
+    fun getProfessorData(user: String, id: String, token: String) {
+        repository.getProfessorData(user, id, token)
+    }
+
+    fun getStudentData(user: String, id: String, token: String) {
+        repository.getStudentData(user, id, token)
+    }
 }
