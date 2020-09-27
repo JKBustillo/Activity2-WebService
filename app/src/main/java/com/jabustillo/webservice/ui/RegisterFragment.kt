@@ -11,11 +11,15 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.jabustillo.webservice.R
+import com.jabustillo.webservice.util.PreferenceProvider
+import com.jabustillo.webservice.viewmodel.LoginViewModel
 import com.jabustillo.webservice.viewmodel.RegisterViewModel
 import kotlinx.android.synthetic.main.fragment_register.*
 
 class RegisterFragment : Fragment() {
     private val registerViewModel: RegisterViewModel by activityViewModels()
+    private val loginViewModel: LoginViewModel by activityViewModels()
+    var theToken : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +46,28 @@ class RegisterFragment : Fragment() {
 
         view.findViewById<Button>(R.id.registerButton).setOnClickListener {
             if (passwordInput.text.toString() == confirmPasswordInput.text.toString()) {
-                registerViewModel.setValue(userInput.text.toString(), passwordInput.text.toString())
+                loginViewModel.signUp(emailInput.text.toString(), passwordInput.text.toString(), userInput.text.toString()).observe(
+                    viewLifecycleOwner,
+                    Observer { user ->
+                        theToken = user.token
+                        if (user.token != "") {
+                            Toast.makeText(context, "Token " + user.token, Toast.LENGTH_LONG).show()
+                            PreferenceProvider.setValue("token", theToken)
+                            PreferenceProvider.setValue("user", userInput.text.toString())
+                            PreferenceProvider.setValue("email", emailInput.text.toString())
+                            PreferenceProvider.setValue("password", passwordInput.text.toString())
+                            loginViewModel.setLogged(true)
+                        } else {
+                            Toast.makeText(
+                                    context,
+                                    "Token failure " + user.error,
+                                    Toast.LENGTH_LONG
+                            )
+                                    .show()
+                        }
+
+                    }
+                )
             } else {
                 Toast.makeText(
                     requireActivity(),

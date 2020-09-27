@@ -4,6 +4,9 @@ package com.jabustillo.webservice.repository.api.course
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.jabustillo.webservice.model.Course
+import com.jabustillo.webservice.model.CourseDetail
+import com.jabustillo.webservice.model.Student
+import com.jabustillo.webservice.model.StudentResume
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.*
@@ -16,7 +19,8 @@ class CourseApiService {
 
         val theResponse = MutableLiveData<List<Course>>()
         var courses = mutableListOf<Course>()
-
+        var courseDetail = CourseDetail("", StudentResume(), mutableListOf<StudentResume>())
+        var professorInfo: Student = Student()
         fun getRestEngine(): CourseApi {
             val interceptor = HttpLoggingInterceptor()
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -31,7 +35,115 @@ class CourseApiService {
         }
     }
 
-    fun getCourseData() = theResponse
+    fun getProfessorData(user: String, professor: String, token: String) : Student {
+        val auth = "Bearer "+token
+        getRestEngine().getProfessorData(user,professor,auth).enqueue(object: Callback<Student> {
+            override fun onResponse(call: Call<Student>, response: Response<Student>) {
+                if (response.isSuccessful) {
+                    Log.d("MyOut", "OK isSuccessful ")
+                    val loginResponse = response.body()
+                    if (loginResponse != null) {
+                        //theResponse.value = response.body()
+                        professorInfo = response.body() as Student
+                    }
+                } else {
+                    Log.d("MyOut", "NOK  "+response.code() )
+                    Log.d("MyOut", "NOK  "+response.toString() )
+                    Log.d("MyOut", "NOK  "+response.errorBody().toString() )
+                }
+            }
+
+            override fun onFailure(call: Call<Student>, t: Throwable) {
+                Log.d("MyOut","Failure "+t.message)
+            }
+
+        })
+
+        return professorInfo!!
+    }
+
+    fun getStudentData(user: String, professor: String, token: String) : Student {
+        var professorInfo = Student("","", "", "", "", "", "", "")
+
+        //Log.d("MyOut", "getCourses with token  <" + token+">")
+        val auth = "Bearer "+token
+        getRestEngine().getStudentData(user,professor,auth).enqueue(object: Callback<Student> {
+            override fun onResponse(call: Call<Student>, response: Response<Student>) {
+                if (response.isSuccessful) {
+                    Log.d("MyOut", "OK isSuccessful ")
+                    val loginResponse = response.body()
+                    if (loginResponse != null) {
+                        //theResponse.value = response.body()
+                        professorInfo = response.body() as Student
+                    }
+                } else {
+                    Log.d("MyOut", "NOK  "+response.code() )
+                    Log.d("MyOut", "NOK  "+response.toString() )
+                    Log.d("MyOut", "NOK  "+response.errorBody().toString() )
+                }
+            }
+
+            override fun onFailure(call: Call<Student>, t: Throwable) {
+                Log.d("MyOut","Failure "+t.message)
+            }
+
+        })
+
+        return professorInfo!!
+    }
+
+    fun restartDB(user: String, token: String) : Boolean {
+        var result : Boolean = false
+        //Log.d("MyOut", "getCourses with token  <" + token+">")
+        val auth = "Bearer "+token
+        getRestEngine().restartDB(user,auth).enqueue(object: Callback<Boolean> {
+            override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
+                if (response.isSuccessful) {
+                    Log.d("MyOut", "OK isSuccessful ")
+                    val loginResponse = response.body()
+                    if (loginResponse != null) {
+                        result = response.body() as Boolean
+                    }
+                } else {
+                    Log.d("MyOut", "NOK  "+response.code() )
+                    Log.d("MyOut", "NOK  "+response.toString() )
+                    Log.d("MyOut", "NOK  "+response.errorBody().toString() )
+                }
+            }
+
+            override fun onFailure(call: Call<Boolean>, t: Throwable) {
+                Log.d("MyOut","Failure "+t.message)
+            }
+        })
+        return result
+    }
+
+    fun getCourseData(user: String, course: String, token: String) : CourseDetail {
+        val auth = "Bearer "+token
+        getRestEngine().getCourseData(user,course,auth).enqueue(object: Callback<CourseDetail> {
+            override fun onResponse(call: Call<CourseDetail>, response: Response<CourseDetail>) {
+                if (response.isSuccessful) {
+                    Log.d("MyOut", "OK isSuccessful ")
+                    val loginResponse = response.body()
+                    if (loginResponse != null) {
+                        //theResponse.value = response.body()
+                        courseDetail = response.body() as CourseDetail
+                    }
+                } else {
+                    Log.d("MyOut", "NOK  "+response.code() )
+                    Log.d("MyOut", "NOK  "+response.toString() )
+                    Log.d("MyOut", "NOK  "+response.errorBody().toString() )
+                }
+            }
+
+            override fun onFailure(call: Call<CourseDetail>, t: Throwable) {
+                Log.d("MyOut","Failure "+t.message)
+            }
+
+        })
+        Log.d("something", "Course $courseDetail")
+        return courseDetail
+    }
 
 
     fun getCourses(user: String, token: String): List<Course> {
@@ -41,7 +153,7 @@ class CourseApiService {
         getRestEngine().getCourses(user,auth).enqueue(object: Callback<List<Course>>{
             override fun onResponse(call: Call<List<Course>>, response: Response<List<Course>>) {
                 if (response.isSuccessful) {
-                    Log.d("MyOut", "OK isSuccessful ")
+                    //Log.d("MyOut", "OK isSuccessful ")
                     val loginResponse = response.body()
                     if (loginResponse != null) {
                         //theResponse.value = response.body()
@@ -63,7 +175,6 @@ class CourseApiService {
             }
 
         })
-
         return courses
     }
 
@@ -89,6 +200,31 @@ class CourseApiService {
             }
 
             override fun onFailure(call: Call<Course>, t: Throwable) {
+                Log.d("MyOut","Failure "+t.message)
+            }
+
+        })
+    }
+
+    fun addStudent(user: String, token: String, course: String) {
+        val auth = "Bearer "+token
+        getRestEngine().addStudent(user,auth,course).enqueue(object: Callback<Student>{
+            override fun onResponse(call: Call<Student>, response: Response<Student>) {
+                if (response.isSuccessful) {
+                    Log.d("MyOut", "OK isSuccessful ")
+                    val loginResponse = response.body()
+                    if (loginResponse != null) {
+                        //Log.d("MyOut", "OK isSuccessful token " )
+                        val student : Student = response.body()!!
+                    }
+                } else {
+                    Log.d("MyOut", "NOK  "+response.code() )
+                    Log.d("MyOut", "NOK  "+response.toString() )
+                    Log.d("MyOut", "NOK  "+response.errorBody().toString() )
+                }
+            }
+
+            override fun onFailure(call: Call<Student>, t: Throwable) {
                 Log.d("MyOut","Failure "+t.message)
             }
 
