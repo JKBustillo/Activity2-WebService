@@ -36,7 +36,6 @@ class   CourseAdapter(items: MutableList<Course>): RecyclerView.Adapter<CourseAd
         holder.id?.text = "Id: " + item?.id
         holder.professor?.text = "Professor: " + item?.professor
         holder.students?.text = "# of Students: " + item?.students
-
     }
 
     override fun getItemCount(): Int {

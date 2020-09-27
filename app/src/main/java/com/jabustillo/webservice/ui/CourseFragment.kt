@@ -43,7 +43,6 @@ class CourseFragment : Fragment() {
         requireView().courses_recycle.adapter = adapter
         requireView().courses_recycle.layoutManager = LinearLayoutManager(requireContext())
 
-
         courseViewModel.coursesLiveData.observe(viewLifecycleOwner, {
             adapter.items?.clear()
             adapter.items?.addAll(it)
